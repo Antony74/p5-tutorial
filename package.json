@@ -1,0 +1,27 @@
+{
+  "name": "p5-tutorial",
+  "version": "1.0.0",
+  "description": "Tutorial for map function - p5 creative coding",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel src/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Antony74/p5-tutorial.git"
+  },
+  "author": "Antony74",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Antony74/p5-tutorial/issues"
+  },
+  "homepage": "https://github.com/Antony74/p5-tutorial#readme",
+  "dependencies": {
+    "codemirror": "^5.62.3",
+    "p5": "^1.4.0",
+    "parcel": "^2.0.0-rc.0",
+    "react": "^17.0.2",
+    "react-codemirror2": "^7.2.1",
+    "react-dom": "^17.0.2"
+  }
+}
