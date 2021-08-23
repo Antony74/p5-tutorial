@@ -2,16 +2,12 @@ import * as React from 'react';
 import { Controlled as CodeMirror } from 'react-codemirror2';
 import 'react-codemirror2';
 import 'codemirror/mode/javascript/javascript';
-import useConsole from './useConsole';
-import { flushSync } from 'react-dom';
 
-const useGetSet = (initialValue) => {
-  const [state, setState] = React.useState(initialValue);
-  return { state, set: (value) => setState(value) };
-};
+import useConsole from './useConsole';
+import useEditor from './useEditor';
 
 const Editor = () => {
-  const codeHook = useGetSet("console.log('Hello world');");
+  const codeHook = useEditor('test', "console.log('Hello world');");
   const consoleHook = useConsole();
 
   const Console = () => {
@@ -28,7 +24,7 @@ const Editor = () => {
   };
 
   const onRun = () => {
-    flushSync(() => consoleHook.clear());
+    consoleHook.clear();
     eval(`runUserCode = () => {${codeHook.state}}`);
     // eslint-disable-next-line no-undef
     runUserCode();
@@ -44,6 +40,7 @@ const Editor = () => {
         }}
       ></CodeMirror>
       <button onClick={onRun}>Run</button>
+      <button onClick={codeHook.discard}>Discard</button>
       <Console />
     </div>
   );

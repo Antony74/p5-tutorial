@@ -2,9 +2,11 @@
 // unless you have a single-minded focus on writing a programming tutorial!
 
 import * as React from 'react';
+import { flushSync } from 'react-dom';
 
 const useConsole = () => {
-  const [state, setState] = React.useState('');
+  const [state, setStateUnflushed] = React.useState('');
+  const setState = (newState) => flushSync(() => setStateUnflushed(newState));
 
   const log = (...params) => {
     const newState = state + '\n' + params.join(', ');
