@@ -9,15 +9,7 @@ const Editor = () => {
   const ref = React.useRef();
 
   const onRun = () => {
-    if (state.scriptTag) {
-      state.scriptTag.remove();
-    }
-
-    const scriptTag = document.createElement('script');
-    setState({...state, scriptTag });
-    scriptTag.text = `runUserCode = () => {${state.editor}}`;
-    ref.current.append(scriptTag);
-
+    eval(`runUserCode = () => {${state.editor}}`);
     // eslint-disable-next-line no-undef
     runUserCode();
   };
