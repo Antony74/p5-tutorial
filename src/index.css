@@ -1,2 +1,7 @@
 @import '../node_modules/codemirror/lib/codemirror.css';
 @import '../node_modules/codemirror/theme/material.css';
+
+.CodeMirror {
+  border: 1px solid #eee;
+  height: auto;
+}

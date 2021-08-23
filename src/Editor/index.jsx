@@ -2,16 +2,18 @@ import * as React from 'react';
 import { Controlled } from 'react-codemirror2';
 import 'react-codemirror2';
 import 'codemirror/mode/javascript/javascript';
+import useConsole from './useConsole';
+import { flushSync } from 'react-dom';
 
 const useGetSet = (initialValue) => {
   const [state, setState] = React.useState(initialValue);
-  return { get: () => state, set: (value) => setState(value) };
+  return { state, set: (value) => setState(value) };
 };
 
 const CodeMirror = (props) => (
   <Controlled
     {...props}
-    value={props.hook.get()}
+    value={props.hook.state}
     onBeforeChange={(_editor, _data, value) => {
       props.hook.set(value);
     }}
@@ -20,7 +22,7 @@ const CodeMirror = (props) => (
 
 const Editor = () => {
   const editorHook = useGetSet("console.log('Hello world');");
-  const logHook = useGetSet('');
+  const consoleHook = useConsole();
 
   const Code = () => (
     <CodeMirror
@@ -29,12 +31,12 @@ const Editor = () => {
     ></CodeMirror>
   );
 
-  const Log = () => {
-    if (logHook.get().length) {
+  const Console = () => {
+    if (consoleHook.state.length) {
       return (
         <CodeMirror
           options={{ theme: 'material' }}
-          hook={logHook}
+          hook={consoleHook}
         ></CodeMirror>
       );
     } else {
@@ -43,7 +45,8 @@ const Editor = () => {
   };
 
   const onRun = () => {
-    eval(`runUserCode = () => {${editorHook.get()}}`);
+    flushSync(() => consoleHook.clear());
+    eval(`runUserCode = () => {${editorHook.state}}`);
     // eslint-disable-next-line no-undef
     runUserCode();
   };
@@ -51,8 +54,8 @@ const Editor = () => {
   return (
     <div>
       <Code />
-      <Log />
       <button onClick={onRun}>Run</button>
+      <Console />
     </div>
   );
 };
