@@ -2,7 +2,6 @@ import * as React from 'react';
 import { Controlled } from 'react-codemirror2';
 import 'react-codemirror2';
 import 'codemirror/mode/javascript/javascript';
-import 'p5';
 
 const useGetSet = (initialValue) => {
   const [state, setState] = React.useState(initialValue);
