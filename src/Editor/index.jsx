@@ -14,7 +14,7 @@ const Editor = () => {
     if (consoleHook.state.length) {
       return (
         <CodeMirror
-          options={{ theme: 'material' }}
+          options={{ mode: 'text/plain', theme: 'material' }}
           value={consoleHook.state}
         ></CodeMirror>
       );
@@ -25,10 +25,19 @@ const Editor = () => {
 
   const onRun = () => {
     consoleHook.clear();
-    eval(`runUserCode = () => {${codeHook.state}}`);
-    // eslint-disable-next-line no-undef
-    runUserCode();
+    try {
+      eval(`runUserCode = () => {${codeHook.state}}`);
+      // eslint-disable-next-line no-undef
+      runUserCode();
+    } catch (e) {
+      console.error(e);
+    }
   };
+
+  const onDiscard = () => {
+    consoleHook.clear();
+    codeHook.discard();    
+  }
 
   return (
     <div>
@@ -40,7 +49,7 @@ const Editor = () => {
         }}
       ></CodeMirror>
       <button onClick={onRun}>Run</button>
-      <button onClick={codeHook.discard}>Discard</button>
+      <button onClick={onDiscard}>Discard</button>
       <Console />
     </div>
   );
